@@ -523,8 +523,8 @@ body.dark-mode .ticker-message {
 .tomorrow-label {
   text-align: center;
   margin: 10px 0 16px;
-  font-size: 5em;
-  font-weight: 500;
+  font-size: 2em;
+  font-weight: 50;
   letter-spacing: 0.12em;
   text-transform: uppercase;
   color: var(--accent);
