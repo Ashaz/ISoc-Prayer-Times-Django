@@ -108,8 +108,19 @@ function populateTimes(data = TODAY_DATA) {
   document.getElementById("day").textContent =
     TODAY_DATA.Day?.toUpperCase() || "";
 
-  document.getElementById("date").textContent =
-    TODAY_DATA.Date?.replace(/-/g, " ") || "";
+    const rawDate = TODAY_DATA.Date; // "2026-01-11"
+
+    if (rawDate) {
+      const d = new Date(rawDate);
+
+      document.getElementById("date").textContent =
+        d.toLocaleDateString("en-GB", {
+          day: "2-digit",
+          month: "long",
+          year: "numeric"
+        });
+    }
+
 
   document.getElementById("hijri").textContent =
     (TODAY_DATA.Hijri?.replace(/-/g, " ") || "") + " AH";
