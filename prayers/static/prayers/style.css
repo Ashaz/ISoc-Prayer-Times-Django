@@ -360,7 +360,7 @@ body[dir="rtl"] .logo-container {
 .website-link {
   margin-top: 120px;
   text-align: left;      /* moves text to the left */
-  font-size: 1.8rem;
+  font-size: 7rem;
   opacity: 0.8;
 }
 
@@ -369,7 +369,7 @@ body[dir="rtl"] .logo-container {
   display: flex;
   align-items: center;
   gap: 12px;
-  font-size: 1.8rem;
+  font-size: 7rem;
   opacity: 0.9;
 }
 
