@@ -1,8 +1,4 @@
-// ==============================
-// DEV TIME OVERRIDE (TESTING)
-// ==============================
 const DEV_NOW = null; // e.g. "06:55" or null
-let TOMORROW_DATA = null;
 
 function getNow() {
   if (!DEV_NOW) return new Date();
@@ -18,6 +14,9 @@ function getNow() {
 let CONFIG = null;
 let TODAY_DATA = null;
 let CURRENT_LANG = "en";
+let TOMORROW_DATA = null;
+const JAMAAH_GRACE_MINUTES = 10; // adjust if needed
+document.body.classList.remove("dark-mode");
 
 // ==============================
 // TRANSLATION
@@ -71,7 +70,7 @@ Promise.all([
   startAnnouncements();
   startLanguageRotation();
   highlightJumuah();
-  startDarkModeWatcher();
+//  startDarkModeWatcher();
   maybeSwitchToTomorrow();
   setInterval(maybeSwitchToTomorrow, 60000);
 
@@ -167,28 +166,82 @@ function startCountdown() {
     const now = getNow();
     const events = [];
 
+    // Build Athaan + Jama'ah events
     for (const p in CONFIG.jamaahTimes) {
-      events.push({ name: p, time: getJamaahDate(p) });
+      // Athaan
+      if (TODAY_DATA[p]) {
+        const [h, m] = TODAY_DATA[p].split(":").map(Number);
+        const athaan = new Date();
+        athaan.setHours(h, m, 0, 0);
+
+        events.push({
+          type: "athaan",
+          prayer: p,
+          time: athaan
+        });
+      }
+
+      // Jama'ah
+      events.push({
+        type: "jamaah",
+        prayer: p,
+        time: getJamaahDate(p)
+      });
     }
 
+    // Sort by time
     events.sort((a, b) => a.time - b.time);
+
+    // Find next event
     let next = events.find(e => e.time > now);
 
-    // If all today's jama'ah times have passed, use tomorrow's Fajr
-    if (!next) {
-      next = events[0];
-      next.time = new Date(next.time.getTime() + 24 * 60 * 60 * 1000);
+    // Find most recent jama'ah (for grace period)
+    let lastJamaah = [...events]
+      .filter(e => e.type === "jamaah" && e.time <= now)
+      .pop();
+
+    if (lastJamaah) {
+      const minsAgo = Math.floor((now - lastJamaah.time) / 60000);
+
+      if (minsAgo >= 0 && minsAgo <= JAMAAH_GRACE_MINUTES) {
+        highlightNextPrayer(lastJamaah.prayer);
+
+        labelEl.textContent =
+          `${lastJamaah.prayer} Jamaʿah started ${minsAgo} minute${minsAgo !== 1 ? "s" : ""} ago`;
+
+        valueEl.textContent = "";
+        return;
+      }
     }
 
+    // If nothing left today → tomorrow Fajr Athaan
+    if (!next) {
+      const [h, m] = TODAY_DATA.Fajr.split(":").map(Number);
+      const tmr = new Date();
+      tmr.setDate(tmr.getDate() + 1);
+      tmr.setHours(h, m, 0, 0);
 
-    highlightNextPrayer(next.name);
+      next = {
+        type: "athaan",
+        prayer: "Fajr",
+        time: tmr
+      };
+    }
+
+    highlightNextPrayer(next.prayer);
 
     const diff = Math.max(0, next.time - now);
     const h = Math.floor(diff / 3600000);
     const m = Math.floor((diff % 3600000) / 60000);
     const s = Math.floor((diff % 60000) / 1000);
 
-    labelEl.textContent = t("nextLabel", { PRAYER: next.name });
+    // Label text
+    if (next.type === "athaan") {
+      labelEl.textContent = `The Athaan for ${next.prayer} is in`;
+    } else {
+      labelEl.textContent = `The Jamaʿah for ${next.prayer} is in`;
+    }
+
     valueEl.textContent =
       `${String(h).padStart(2, "0")}:` +
       `${String(m).padStart(2, "0")}:` +
@@ -198,6 +251,7 @@ function startCountdown() {
   tick();
   setInterval(tick, 1000);
 }
+
 
 // ==============================
 // JUMUʿAH HIGHLIGHT
@@ -310,21 +364,29 @@ function checkDarkMode() {
 
   const now = getNow();
 
-  const isha = getJamaahDate("Isha"); // today
-  const fajr = getJamaahDate("Fajr"); // today at fajr time
+  // Build today's Isha
+  const isha = getJamaahDate("Isha", TODAY_DATA);
 
   // Build tomorrow's Fajr explicitly
-  const fajrTomorrow = new Date(fajr);
+  const fajrToday = getJamaahDate("Fajr", TODAY_DATA);
+  const fajrTomorrow = new Date(fajrToday);
   fajrTomorrow.setDate(fajrTomorrow.getDate() + 1);
 
-  const isAfterIsha = now >= isha;
-  const isAfterMidnightBeforeFajr =
-    now.getHours() < 12 && now < fajrTomorrow;
+  let isNight = false;
 
-  const isNight = isAfterIsha || isAfterMidnightBeforeFajr;
+  // After Isha (same day)
+  if (now >= isha) {
+    isNight = true;
+  }
+
+  // After midnight but before Fajr
+  if (now.getHours() < 12 && now < fajrTomorrow) {
+    isNight = true;
+  }
 
   document.body.classList.toggle("dark-mode", isNight);
 }
+
 
 
 function startDarkModeWatcher() {

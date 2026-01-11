@@ -413,8 +413,8 @@ body[dir="rtl"] .logo-container {
    ============================== */
 
 body.dark-mode {
-  background: #1c1c1e;                  /* iOS system dark */
-  color: rgba(255, 255, 255, 0.88);
+  background: #004f4f; /* darker blue, not black */
+  color: #e6e6e6;
 }
 
 body.dark-mode .screen {
@@ -523,7 +523,7 @@ body.dark-mode .ticker-message {
 .tomorrow-label {
   text-align: center;
   margin: 10px 0 16px;
-  font-size: 1.4rem;
+  font-size: 5em;
   font-weight: 500;
   letter-spacing: 0.12em;
   text-transform: uppercase;
