@@ -13,6 +13,13 @@
 
 <body data-lang="en">
 
+<div id="loading-screen">
+  <div class="loading-inner">
+    <div class="loading-spinner"></div>
+    <div class="loading-text">Loading prayer times…</div>
+  </div>
+</div>
+
   <div class="screen">
 
     <!-- LEFT PANEL -->
@@ -55,7 +62,9 @@
 
     <!-- RIGHT PANEL -->
     <div class="right">
-
+<div id="tomorrow-label" class="tomorrow-label hidden">
+  Tomorrow’s Timings
+</div>
             <!-- SVG LOGO CONTAINER -->
       <div class="logo-container">
         <img src="{% static 'prayers/white_logo.svg' %}" alt="Masjid Logo" class="logo">
@@ -105,6 +114,7 @@
   </div>
   <div class="countdown-time" id="countdown">--:--:--</div>
 </div>
+
 
 
 

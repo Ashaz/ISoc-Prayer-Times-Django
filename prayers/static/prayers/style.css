@@ -515,3 +515,67 @@ body.dark-mode .ticker-message {
   75%  { transform: translate(8px, 10px); }
   100% { transform: translate(0, 0); }
 }
+
+/* ==============================
+   TOMORROW TIMINGS LABEL
+   ============================== */
+
+.tomorrow-label {
+  text-align: center;
+  margin: 10px 0 16px;
+  font-size: 1.4rem;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--accent);
+  opacity: 0.95;
+}
+
+/* Hidden by default */
+.tomorrow-label.hidden {
+  display: none;
+}
+
+/* Dark mode refinement (optional) */
+body.dark-mode .tomorrow-label {
+  opacity: 1;
+}
+/* ==============================
+   LOADING SCREEN
+   ============================== */
+
+#loading-screen {
+  position: fixed;
+  inset: 0;
+  background: var(--bg);
+  z-index: 99999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.loading-inner {
+  text-align: center;
+  color: var(--text);
+}
+
+.loading-text {
+  margin-top: 18px;
+  font-size: 1.4rem;
+  letter-spacing: 0.12em;
+  opacity: 0.9;
+}
+
+/* Simple spinner (TV safe) */
+.loading-spinner {
+  width: 56px;
+  height: 56px;
+  border: 4px solid rgba(255,255,255,0.2);
+  border-top-color: var(--accent);
+  border-radius: 50%;
+  animation: spin 1.2s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}

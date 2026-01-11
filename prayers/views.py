@@ -33,3 +33,28 @@ def api_today(request):
         "Isha": today.isha,
         "Comments": today.comments,
     })
+
+from datetime import date, timedelta
+from django.http import JsonResponse
+from .models import DailyPrayerTimes
+
+
+def api_day(request, offset):
+    target_date = date.today() + timedelta(days=offset)
+    row = DailyPrayerTimes.objects.filter(date=target_date).first()
+
+    if not row:
+        return JsonResponse({}, safe=True)
+
+    return JsonResponse({
+        "Date": row.date.strftime("%Y-%m-%d"),
+        "Day": row.day,
+        "Hijri": row.hijri,
+        "Fajr": row.fajr,
+        "Sunrise": row.sunrise,
+        "Dhuhr": row.dhuhr,
+        "Asr": row.asr,
+        "Maghrib": row.maghrib,
+        "Isha": row.isha,
+        "Comments": row.comments,
+    })

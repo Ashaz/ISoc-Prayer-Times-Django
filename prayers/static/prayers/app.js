@@ -2,6 +2,7 @@
 // DEV TIME OVERRIDE (TESTING)
 // ==============================
 const DEV_NOW = null; // e.g. "06:55" or null
+let TOMORROW_DATA = null;
 
 function getNow() {
   if (!DEV_NOW) return new Date();
@@ -70,8 +71,12 @@ Promise.all([
   startAnnouncements();
   startLanguageRotation();
   highlightJumuah();
+  startDarkModeWatcher();
+  maybeSwitchToTomorrow();
+  setInterval(maybeSwitchToTomorrow, 60000);
 
   setInterval(highlightJumuah, 60000);
+  hideLoadingScreen();
 }).catch(err => {
   console.error("Failed to load data from Django API", err);
 });
@@ -79,7 +84,7 @@ Promise.all([
 // ==============================
 // TIME HELPERS
 // ==============================
-function getJamaahDate(prayer) {
+function getJamaahDate(prayer, data = TODAY_DATA) {
   const cfg = CONFIG.jamaahTimes[prayer];
   const d = new Date();
 
@@ -90,25 +95,30 @@ function getJamaahDate(prayer) {
   }
 
   if (cfg?.offsetMinutes != null) {
-    const [h, m] = TODAY_DATA[prayer].split(":").map(Number);
+    const [h, m] = data[prayer].split(":").map(Number);
     d.setHours(h, m + cfg.offsetMinutes, 0, 0);
     return d;
   }
 }
 
+
 // ==============================
 // POPULATE PRAYER TABLE
 // ==============================
-function populateTimes() {
+function populateTimes(data = TODAY_DATA) {
   document.getElementById("day").textContent =
     TODAY_DATA.Day?.toUpperCase() || "";
+
   document.getElementById("date").textContent =
     TODAY_DATA.Date?.replace(/-/g, " ") || "";
+
   document.getElementById("hijri").textContent =
     (TODAY_DATA.Hijri?.replace(/-/g, " ") || "") + " AH";
 
   Object.keys(CONFIG.jamaahTimes).forEach(p => {
-    document.getElementById(`${p}-begins`).textContent = TODAY_DATA[p] || "--:--";
+    document.getElementById(`${p}-begins`).textContent =
+      data[p] || "--:--";
+
     document.getElementById(`${p}-jamaah`).textContent =
       getJamaahDate(p).toLocaleTimeString("en-GB", {
         hour: "2-digit",
@@ -116,6 +126,7 @@ function populateTimes() {
       });
   });
 }
+
 
 // ==============================
 // STATIC TEXT (MULTI-LANG)
@@ -290,3 +301,82 @@ setInterval(() => {
   }, BURNIN_DURATION_SECONDS * 1000);
 
 }, BURNIN_INTERVAL_MINUTES * 60 * 1000);
+
+// ==============================
+// AUTO DARK MODE (AFTER ISHA)
+// ==============================
+function checkDarkMode() {
+  if (!CONFIG || !TODAY_DATA) return;
+
+  const now = getNow();
+
+  const isha = getJamaahDate("Isha"); // today
+  const fajr = getJamaahDate("Fajr"); // today at fajr time
+
+  // Build tomorrow's Fajr explicitly
+  const fajrTomorrow = new Date(fajr);
+  fajrTomorrow.setDate(fajrTomorrow.getDate() + 1);
+
+  const isAfterIsha = now >= isha;
+  const isAfterMidnightBeforeFajr =
+    now.getHours() < 12 && now < fajrTomorrow;
+
+  const isNight = isAfterIsha || isAfterMidnightBeforeFajr;
+
+  document.body.classList.toggle("dark-mode", isNight);
+}
+
+
+function startDarkModeWatcher() {
+  checkDarkMode();
+  setInterval(checkDarkMode, 60 * 1000); // every minute
+}
+
+// ==============================
+// SWITCH TO TOMORROW AFTER ISHA
+// ==============================
+let showingTomorrow = false;
+
+function maybeSwitchToTomorrow() {
+  if (!CONFIG || !TODAY_DATA) return;
+
+  const now = getNow();
+  const isha = getJamaahDate("Isha");
+
+  // Not past Isha yet → do nothing
+  if (now < isha) return;
+
+  // Already switched → do nothing
+  if (showingTomorrow) return;
+
+  fetch("/api/day/1/")
+    .then(r => r.json())
+    .then(data => {
+      if (!data || !data.Date) return;
+
+      TOMORROW_DATA = data;
+      showingTomorrow = true;
+
+      populateTimes(TOMORROW_DATA);
+      showTomorrowLabel();
+
+      updateStaticText();
+    });
+}
+
+function showTomorrowLabel() {
+  const el = document.getElementById("tomorrow-label");
+  if (el) el.classList.remove("hidden");
+}
+
+function hideLoadingScreen() {
+  const el = document.getElementById("loading-screen");
+  if (!el) return;
+
+  el.style.opacity = "0";
+  el.style.transition = "opacity 0.4s ease";
+
+  setTimeout(() => {
+    el.remove();
+  }, 5000);
+}
