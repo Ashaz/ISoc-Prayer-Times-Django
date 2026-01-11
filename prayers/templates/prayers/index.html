@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+
+{% load static %}
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Masjid Prayer Times</title>
+<link rel="stylesheet" href="{% static 'prayers/style.css' %}">
+
+</head>
+
+
+
+<body data-lang="en">
+
+  <div class="screen">
+
+    <!-- LEFT PANEL -->
+    <div class="left">
+      <div class="clock" id="clock">--:--</div>
+
+      <div class="date-block">
+        <div id="day">----</div>
+        <div id="date">-- ---- ----</div>
+        <div id="hijri">-- ---- ---- AH</div>
+      </div>
+
+<!-- In index.html, modify the Jumu'ah section -->
+<div class="jumuah">
+  <div class="jumuah-title">Jumu'ah</div>
+
+  <div class="jumuah-time" data-jumuah="12:20">
+    <span>1st Jama'ah</span>
+    <strong>12:20</strong>
+  </div>
+
+  <div class="jumuah-time" data-jumuah="13:10">
+    <span>2nd Jama'ah</span>
+    <strong>13:10</strong>
+  </div>
+
+  <!-- Add this website link -->
+<div class="website-link">
+  isocnewcastle.com
+</div>
+    <div class="social">
+  <img src="{% static 'prayers/insta_white.svg' %}" alt="Instagram" />
+  <span>@isoc_newcastle</span>
+</div>
+
+</div>
+
+
+    </div>
+
+    <!-- RIGHT PANEL -->
+    <div class="right">
+
+            <!-- SVG LOGO CONTAINER -->
+      <div class="logo-container">
+        <img src="{% static 'prayers/white_logo.svg' %}" alt="Masjid Logo" class="logo">
+        <!-- If your SVG file has a different name, change "logo.svg" to your filename -->
+      </div>
+
+      <div class="table-header">
+        <div></div>
+        <div>Begins</div>
+        <div>Jama‘ah</div>
+      </div>
+
+      <div class="row" data-prayer="Fajr">
+        <div>Fajr</div>
+        <div id="Fajr-begins"></div>
+        <div id="Fajr-jamaah"></div>
+      </div>
+
+      <div class="row" data-prayer="Dhuhr">
+        <div>Dhuhr</div>
+        <div id="Dhuhr-begins"></div>
+        <div id="Dhuhr-jamaah"></div>
+      </div>
+
+      <div class="row" data-prayer="Asr">
+        <div>Asr</div>
+        <div id="Asr-begins"></div>
+        <div id="Asr-jamaah"></div>
+      </div>
+
+      <div class="row" data-prayer="Maghrib">
+        <div>Maghrib</div>
+        <div id="Maghrib-begins"></div>
+        <div id="Maghrib-jamaah"></div>
+      </div>
+
+      <div class="row" data-prayer="Isha">
+        <div>Isha</div>
+        <div id="Isha-begins"></div>
+        <div id="Isha-jamaah"></div>
+      </div>
+
+
+<div class="countdown">
+  <div class="countdown-label" id="countdown-label">
+    The next Jama‘ah is in:
+  </div>
+  <div class="countdown-time" id="countdown">--:--:--</div>
+</div>
+
+
+
+    </div>
+      <div class="ticker">
+    <div class="ticker-message" id="ticker-message"></div>
+   </div>
+    </div>
+
+  <script src="{% static 'prayers/app.js' %}"></script>
+
+<div id="burnin-overlay">
+  <div class="burnin-text">
+    Burn-in protection active
+  </div>
+</div>
+
+</body>
+</html>

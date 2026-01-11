@@ -1,0 +1,517 @@
+:root {
+  --bg: #006666;
+  --panel: #006666;
+  --text: #efefef;
+  --muted: rgba(239,239,239,0.75);
+  --grid: rgba(239,239,239,0.15);
+  --accent: #ffd966;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: "Inter", "Segoe UI", system-ui, sans-serif;
+}
+
+.screen {
+  display: grid;
+  grid-template-columns: 34% 66%;
+  grid-template-rows: 1fr 60px;
+
+  width: 100%;
+  height: 100vh;
+  max-width: calc(100vh * (16 / 9));
+  aspect-ratio: 16 / 9;
+
+  position: relative;
+  overflow: hidden;
+}
+
+
+/* LEFT */
+.left {
+  padding: 50px;
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+
+.clock {
+  background: var(--text);
+  color: var(--bg);
+  font-size: 4.2rem;
+  font-weight: 700;
+  padding: 18px 28px;
+  width: fit-content;
+}
+
+#day {
+  font-size: 3.8rem;
+  letter-spacing: 2px;
+}
+
+#date {
+  font-size: 3.0rem;
+  margin-top: 6px;
+}
+
+#hijri {
+  font-size: 2.2rem;
+  opacity: 0.75;
+  margin-top: 10px;
+}
+
+.footer-note {
+  margin-top: auto;
+  font-size: 1.1rem;
+  opacity: 0.7;
+}
+
+/* RIGHT */
+.right {
+  padding: 60px 80px 100px;
+  position: relative;
+}
+
+.table-header,
+.row {
+  display: grid;
+  grid-template-columns: 1.3fr 1fr 1fr;
+  padding: 30px 0;
+}
+
+.table-header {
+  font-size: 2.5rem;
+  opacity: 0.75;
+  border-bottom: 2px solid var(--grid);
+}
+
+.row {
+  font-size: 3.5rem;
+  border-bottom: 1px solid var(--grid);
+}
+
+.row div:first-child {
+  font-weight: 600;
+}
+
+.row.active {
+  color: var(--accent);
+}
+
+/* ---------- ANNOUNCEMENT TICKER ---------- */
+
+.ticker {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+
+  width: 100%;
+  height: 60px;
+
+  background: rgba(0, 0, 0, 0.15);
+  overflow: hidden;
+
+  display: flex;
+  align-items: center;
+  padding-left: 20px;
+}
+
+
+.ticker-message {
+  position: absolute;
+  white-space: nowrap;
+  font-size: 1.6rem;
+  color: var(--text);
+  opacity: 0.9;
+  will-change: transform;
+  transform: translateX(100%);
+}
+
+/* ---------- COUNTDOWN TO NEXT JAMA'AH ---------- */
+
+.countdown {
+  margin-top: 30px;
+  padding-bottom: 20px;
+  text-align: center;
+}
+
+
+.countdown-label {
+  font-size: 3.5rem;
+  opacity: 0.75;
+  margin-bottom: 4px;
+}
+
+.countdown-time {
+  font-size: 5rem;
+  font-weight: 700;
+  letter-spacing: 2px;
+  color: var(--accent);
+}
+
+/* ---------- JUMU‘AH BLOCK ---------- */
+
+.jumuah {
+  margin-top: 50px;
+  padding-top: 30px;
+  border-top: 2px solid var(--grid);
+}
+
+.jumuah-title {
+  font-size: 4rem;
+  font-weight: 600;
+  letter-spacing: 1px;
+  margin-bottom: 20px;
+
+}
+
+.jumuah-time {
+  display: flex;
+  justify-content: space-between;
+  font-size: 2.5rem;
+  margin-bottom: 12px;
+}
+
+.jumuah-time span {
+  opacity: 0.75;
+}
+
+.jumuah-time strong {
+  font-weight: 700;
+  color: var(--accent);
+}
+
+.jumuah-time.active {
+  color: var(--accent);
+  font-weight: 700;
+}
+
+
+/* ==============================
+   PRE-IQAMAH WARNING GRADIENT
+
+
+.countdown.warning {
+  padding: 28px 22px;
+  border-radius: 18px;
+
+  background: linear-gradient(
+    270deg,
+    #0f0c29,
+    #302b63,
+    #24243e
+  );
+
+  background-size: 400% 400%;
+  animation: iqamahGradient 6s ease infinite;
+}
+
+@keyframes iqamahGradient {
+  0%   { background-position: 0% 50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+============================== */
+
+
+/* ==============================
+   PLASMA BURN-IN PROTECTION
+   ============================== */
+
+.screen {
+  animation: pixelShift 120s infinite alternate ease-in-out;
+}
+
+@keyframes pixelShift {
+  0%   { transform: translate(0, 0); }
+  20%  { transform: translate(3px, 1px); }
+  40%  { transform: translate(-2px, 3px); }
+  60%  { transform: translate(2px, -3px); }
+  80%  { transform: translate(-3px, -2px); }
+  100% { transform: translate(0, 0); }
+}
+
+.screen {
+  animation: pixelShift 180s infinite ease-in-out;
+}
+
+
+/* Reduce static text intensity slightly */
+#day,
+#date,
+#hijri,
+.table-header,
+.row {
+  opacity: 0.88;
+}
+
+body.idle {
+  opacity: 0.85;
+  transition: opacity 2s ease;
+}
+
+/* ==============================
+   RTL SUPPORT (ARABIC)
+   ============================== */
+
+body[dir="rtl"] {
+  direction: rtl;
+}
+
+body[dir="rtl"] .right,
+body[dir="rtl"] .left {
+  text-align: right;
+}
+
+/* ==============================
+   LOGO STYLES
+   ============================== */
+
+.logo-container {
+  position: absolute;
+  top: 30px;
+  right: 60px;
+  z-index: 10;
+  text-align: right;
+  animation: logoDrift 240s infinite alternate ease-in-out;
+}
+
+
+@keyframes logoDrift {
+  0%   { transform: translate(0, 0); }
+  50%  { transform: translate(-6px, 4px); }
+  100% { transform: translate(0, 0); }
+}
+
+.logo {
+  height: 120px; /* Adjust this based on your logo proportions */
+  width: auto;
+  max-width: 300px; /* Maximum width to prevent oversized logos */
+
+
+  /* If your logo is already white, you might not need the filter */
+  /* Or use this to change color to your accent color: */
+  /* filter: brightness(0) saturate(100%) invert(77%) sepia(53%) saturate(400%) hue-rotate(350deg); */
+}
+
+/* For RTL languages (Arabic) - logo on left side */
+body[dir="rtl"] .logo-container {
+  right: auto;
+  left: 60px;
+  text-align: left;
+}
+
+/* ==============================
+   RESPONSIVE LOGO SIZING
+   ============================== */
+
+@media (max-height: 800px) {
+  .logo {
+    height: 60px;
+  }
+  .logo-container {
+    top: 20px;
+    right: 40px;
+  }
+  body[dir="rtl"] .logo-container {
+    left: 40px;
+  }
+}
+
+@media (max-width: 1400px) {
+  .logo {
+    height: 70px;
+  }
+  .logo-container {
+    right: 40px;
+  }
+  body[dir="rtl"] .logo-container {
+    left: 40px;
+  }
+}
+
+@media (max-width: 1200px) {
+  .logo {
+    height: 60px;
+  }
+  .logo-container {
+    right: 30px;
+  }
+  body[dir="rtl"] .logo-container {
+    left: 30px;
+  }
+}
+
+@media (max-width: 1024px) {
+  .logo {
+    height: 50px;
+  }
+  .logo-container {
+    top: 20px;
+    right: 20px;
+  }
+  body[dir="rtl"] .logo-container {
+    left: 20px;
+  }
+}
+
+.website-link {
+  margin-top: 120px;
+  text-align: left;      /* moves text to the left */
+  font-size: 1.8rem;
+  opacity: 0.8;
+}
+
+.social {
+  margin-top: 10px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 1.8rem;
+  opacity: 0.9;
+}
+
+.social img {
+  height: 28px;   /* TV-safe size */
+  width: auto;
+}
+
+.social span {
+  color: var(--text);
+}
+
+/* ==============================
+   INSTAGRAM PULSE ANIMATION
+   ============================== */
+
+.social.pulse {
+  animation: instaPulse 1.2s ease-out;
+}
+
+@keyframes instaPulse {
+  0% {
+    transform: scale(1);
+    opacity: 0.95;
+  }
+  30% {
+    transform: scale(1.06);
+    opacity: 1;
+  }
+  60% {
+    transform: scale(1.02);
+  }
+  100% {
+    transform: scale(1);
+    opacity: 0.95;
+  }
+}
+
+/* ==============================
+   iOS-STYLE DARK MODE (POST-ISHA)
+   ============================== */
+
+body.dark-mode {
+  background: #1c1c1e;                  /* iOS system dark */
+  color: rgba(255, 255, 255, 0.88);
+}
+
+body.dark-mode .screen {
+  background: #1c1c1e;
+}
+
+/* Clock card (raised surface) */
+body.dark-mode .clock {
+  background: #2c2c2e;                  /* iOS card grey */
+  color: #ffffff;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.35);
+}
+
+/* Table lines & separators */
+body.dark-mode .row,
+body.dark-mode .table-header {
+  border-color: rgba(255, 255, 255, 0.08);
+}
+
+/* Active highlights (soft gold) */
+body.dark-mode .row.active,
+body.dark-mode .jumuah-time strong,
+body.dark-mode .countdown-time {
+  color: #f2d675;
+}
+
+/* Secondary text */
+body.dark-mode #day,
+body.dark-mode #date,
+body.dark-mode #hijri,
+body.dark-mode .jumuah-time span,
+body.dark-mode .countdown-label,
+body.dark-mode .website-link,
+body.dark-mode .social {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+/* Logo + socials slightly dimmed */
+body.dark-mode .logo {
+  opacity: 0.85;
+}
+
+body.dark-mode .social {
+  opacity: 0.8;
+}
+
+/* Ticker (softer at night) */
+body.dark-mode .ticker {
+  background: rgba(255, 255, 255, 0.06);
+}
+
+body.dark-mode .ticker-message {
+  opacity: 0.8;
+}
+
+/* ==============================
+   BURN-IN PROTECTION OVERLAY
+   ============================== */
+
+#burnin-overlay {
+  position: fixed;
+  inset: 0;
+  background: black;
+  z-index: 9999;
+
+  display: none;
+  align-items: center;
+  justify-content: center;
+}
+
+#burnin-overlay.active {
+  display: flex;
+}
+
+.burnin-text {
+  font-size: 3rem;
+  letter-spacing: 2px;
+  opacity: 0.85;
+
+  animation:
+    burninColor 6s ease-in-out infinite,
+    burninDrift 12s linear infinite;
+}
+
+/* Soft colour cycling (OLED-safe) */
+@keyframes burninColor {
+  0%   { color: #888; }
+  33%  { color: #bfa76a; }
+  66%  { color: #7aa6a6; }
+  100% { color: #888; }
+}
+
+/* Very slow movement to avoid static pixels */
+@keyframes burninDrift {
+  0%   { transform: translate(0, 0); }
+  25%  { transform: translate(12px, -8px); }
+  50%  { transform: translate(-10px, 6px); }
+  75%  { transform: translate(8px, 10px); }
+  100% { transform: translate(0, 0); }
+}

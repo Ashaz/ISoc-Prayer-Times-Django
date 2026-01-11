@@ -1,0 +1,58 @@
+{
+  "languageRotation": {
+    "enabled": false,
+    "intervalMinutes": 0.1,
+    "default": "en"
+  },
+
+  "translations": {
+    "en": {
+      "nextLabel": "The {PRAYER} Jama‘ah is in:",
+      "pleaseLineUp": "PLEASE LINE UP",
+      "khutbah": "KHUTBAH IN PROGRESS",
+      "jumuah": "Jumu‘ah",
+      "firstJumuah": "1st Jama‘ah",
+      "secondJumuah": "2nd Jama‘ah"
+    },
+    "ar": {
+      "nextLabel": "إقامة صلاة {PRAYER} بعد:",
+      "pleaseLineUp": "الرجاء تسوية الصفوف",
+      "khutbah": "الخطبة جارية",
+      "jumuah": "الجمعة",
+      "firstJumuah": "الجمعة الأولى",
+      "secondJumuah": "الجمعة الثانية"
+    }
+  },
+
+  "announcements": {
+    "en": [
+      "Newcastle University and the Islamic Society do not accept responsibility for any items left in the Masjid.",
+      "Please keep mobile phones on silent.",
+      "Follow us on Instagram! @isoc_newcastle"
+    ],
+    "ar": [
+      "مرحباً بكم في المسجد",
+      "يرجى إغلاق الهواتف المحمولة",
+      "خطبة الجمعة تبدأ الساعة 12:45"
+    ]
+  },
+
+  "preIqamah": {
+    "warningMinutes": 5
+  },
+
+  "jamaahTimes": {
+    "Fajr": "07:00",
+    "Dhuhr": "12:30",
+    "Asr": "14:00",
+    "Maghrib": { "offsetMinutes": 5 },
+    "Isha": "18:00"
+  },
+
+  "jumuah": {
+    "times": [
+      { "labelKey": "firstJumuah", "time": "12:20" },
+      { "labelKey": "secondJumuah", "time": "13:10" }
+    ]
+  }
+}
