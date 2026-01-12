@@ -298,9 +298,19 @@ function highlightJumuah() {
 let announcementIndex = 0;
 let announcementTimeout = null;
 
+// timings (ms)
+const FADE_TIME = 1000;
+const SHOW_TIME = 5000;
+const GAP_TIME  = 1000;
+
 function startAnnouncements(reset = false) {
   const ticker = document.getElementById("ticker-message");
   if (!ticker) return;
+
+    // HARD RESET any old scrolling styles
+  ticker.style.transform = "none";
+  ticker.style.left = "auto";
+  ticker.style.right = "auto";
 
   if (announcementTimeout) {
     clearTimeout(announcementTimeout);
@@ -316,30 +326,29 @@ function startAnnouncements(reset = false) {
   }
 
   function show() {
-    const text = list[announcementIndex];
-    ticker.textContent = text;
+    // set text
+    ticker.textContent = list[announcementIndex];
 
-    const screenWidth = document.querySelector(".screen").offsetWidth;
-    ticker.style.transition = "none";
-    ticker.style.transform = `translateX(${screenWidth}px)`;
-    ticker.offsetHeight;
+    // fade in
+    ticker.classList.add("show");
 
-    const textWidth = ticker.offsetWidth;
-    const distance = screenWidth + textWidth;
-    const speed = 120;
-    const duration = distance / speed;
-
-    ticker.style.transition = `transform ${duration}s linear`;
-    ticker.style.transform = `translateX(-${textWidth}px)`;
-
+    // stay visible
     announcementTimeout = setTimeout(() => {
-      announcementIndex = (announcementIndex + 1) % list.length;
-      show();
-    }, duration * 1000);
+      // fade out
+      ticker.classList.remove("show");
+
+      // wait gap, then next
+      announcementTimeout = setTimeout(() => {
+        announcementIndex = (announcementIndex + 1) % list.length;
+        show();
+      }, GAP_TIME);
+
+    }, SHOW_TIME);
   }
 
   show();
 }
+
 
 // ==============================
 // LANGUAGE ROTATION

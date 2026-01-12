@@ -100,7 +100,7 @@ body {
   color: var(--accent);
 }
 
-/* ---------- ANNOUNCEMENT TICKER ---------- */
+/* ---------- STATIC ANNOUNCEMENT FADE ---------- */
 
 .ticker {
   position: absolute;
@@ -111,23 +111,31 @@ body {
   height: 100px;
 
   background: rgba(0, 0, 0, 0.15);
-  overflow: hidden;
 
   display: flex;
   align-items: center;
-  padding-left: 20px;
+  justify-content: center;
 }
-
 
 .ticker-message {
-  position: absolute;
-  white-space: nowrap;
-  font-size: 2.5rem;
+  font-size: 2.6rem;
   color: var(--text);
-  opacity: 0.9;
-  will-change: transform;
-  transform: translateX(100%);
+  opacity: 0;
+
+  transition: opacity 1s ease;
+  text-align: center;
+  padding: 0 40px;
+
+  transform: none !important;
+  position: static !important;
+  white-space: normal !important;
 }
+
+/* Visible state */
+.ticker-message.show {
+  opacity: 1;
+}
+
 
 /* ---------- COUNTDOWN TO NEXT JAMA'AH ---------- */
 
