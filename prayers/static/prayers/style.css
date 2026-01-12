@@ -168,7 +168,7 @@ body {
 }
 
 .jumuah-title {
-  font-size: 4rem;
+  font-size: 6rem;
   font-weight: 600;
   letter-spacing: 1px;
   margin-bottom: 20px;
@@ -178,7 +178,7 @@ body {
 .jumuah-time {
   display: flex;
   justify-content: space-between;
-  font-size: 2.5rem;
+  font-size: 4rem;
   margin-bottom: 12px;
 }
 
