@@ -17,6 +17,10 @@ let CURRENT_LANG = "en";
 let TOMORROW_DATA = null;
 const JAMAAH_GRACE_MINUTES = 10; // adjust if needed
 document.body.classList.remove("dark-mode");
+const SLIDES_COOLDOWN_MS = 2; // 3 minutes
+let lastSlidesTime = Number(
+  localStorage.getItem("lastSlidesTime") || 0
+);
 
 // ==============================
 // TRANSLATION
@@ -76,6 +80,9 @@ Promise.all([
 
   setInterval(highlightJumuah, 60000);
   hideLoadingScreen();
+
+  startSlidesScheduler();
+
 }).catch(err => {
   console.error("Failed to load data from Django API", err);
 });
@@ -452,4 +459,26 @@ function hideLoadingScreen() {
   setTimeout(() => {
     el.remove();
   }, 5000);
+}
+
+function isWithinSalahWindow() {
+  const now = getNow();
+
+  for (const p in CONFIG.jamaahTimes) {
+    const jamaah = getJamaahDate(p);
+
+    // Ignore prayers long past
+    if (now > new Date(jamaah.getTime() + 15 * 60 * 1000)) {
+      continue;
+    }
+
+    const start = new Date(jamaah.getTime() - 10 * 60 * 1000);
+    const end   = new Date(jamaah.getTime() + 15 * 60 * 1000);
+
+    if (now >= start && now <= end) {
+      return true;
+    }
+  }
+
+  return false;
 }

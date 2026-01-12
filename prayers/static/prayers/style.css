@@ -589,3 +589,29 @@ body::-webkit-scrollbar, body::-webkit-scrollbar-button { display: none; } /* Ch
 body {
   cursor: none;
 }
+
+/* ==============================
+   PAGE FADE TRANSITION
+   ============================== */
+
+#page-fade {
+  position: fixed;
+  inset: 0;
+  background: var(--bg); /* same blue */
+  z-index: 99999;
+
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 1.2s ease;
+}
+
+/* Fade IN when page loads */
+body.fade-in #page-fade {
+  opacity: 0;
+}
+
+/* Fade OUT before navigation */
+body.fade-out #page-fade {
+  opacity: 1;
+  pointer-events: all;
+}

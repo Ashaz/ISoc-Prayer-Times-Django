@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Masjid Announcements</title>
+
+  <!-- REUSE your existing styles -->
+  <link rel="stylesheet" href="{% static 'prayers/style.css' %}">
+  <!-- Optional small overrides -->
+  <link rel="stylesheet" href="{% static 'prayers/slides.css' %}">
+</head>
+
+<body>
+
+<div class="screen slides-screen">
+
+  <!-- LEFT: IMAGE / SLIDE -->
+  <div class="left slide-image">
+    <img src="{% static 'prayers/slides/diw_poster.png' %}" alt="Slide">
+  </div>
+
+  <!-- RIGHT: TEXT -->
+  <div class="right slide-text">
+    <h1>We need you!</h1>
+
+    <p>
+     Volunteer for our DIW - scan the QR code in the corridor to sign up!
+    </p>
+
+    <ul>
+    </ul>
+  </div>
+
+</div>
+
+<script src="{% static 'prayers/rotator.js' %}"></script>
+<div id="page-fade"></div>
+
+</body>
+</html>

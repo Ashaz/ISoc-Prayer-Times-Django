@@ -1,0 +1,46 @@
+/* Override grid for slides */
+.slides-screen {
+  grid-template-columns: 50% 50%;
+}
+
+/* Image side */
+.slide-image {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.slide-image img {
+  max-width: 90%;
+  max-height: 85%;
+  object-fit: contain;
+}
+
+/* Text side */
+.slide-text {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 30px;
+}
+
+/* Match visual scale of prayer screen */
+.slide-text h1 {
+  font-size: 4.5rem;
+  font-weight: 700;
+}
+
+.slide-text p {
+  font-size: 2.8rem;
+  opacity: 0.9;
+}
+
+.slide-text ul {
+  font-size: 2.4rem;
+  list-style: none;
+  padding: 0;
+}
+
+.slide-text li {
+  margin-bottom: 10px;
+}

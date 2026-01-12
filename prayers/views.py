@@ -7,6 +7,8 @@ from .models import SiteConfig, DailyPrayerTimes
 def screen(request):
     return render(request, "prayers/index.html")
 
+def slides(request):
+    return render(request, "prayers/slides.html")
 
 def api_config(request):
     cfg = SiteConfig.objects.order_by("-updated_at").first()

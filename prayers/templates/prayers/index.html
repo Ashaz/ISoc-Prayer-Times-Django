@@ -9,21 +9,14 @@
 
 </head>
 
-
-<script>
-  setInterval(() => {
-    window.location.reload();
-  }, 3600000); // 60 mins
-</script>
-
 <body data-lang="en">
 
-<div id="loading-screen">
-  <div class="loading-inner">
-    <div class="loading-spinner"></div>
-    <div class="loading-text">Loading prayer times…</div>
-  </div>
-</div>
+<!--<div id="loading-screen">-->
+<!--  <div class="loading-inner">-->
+<!--    <div class="loading-spinner"></div>-->
+<!--    <div class="loading-text">Loading prayer times…</div>-->
+<!--  </div>-->
+<!--</div>-->
 
   <div class="screen">
 
@@ -136,6 +129,9 @@
     Burn-in protection active
   </div>
 </div>
+
+<script src="{% static 'prayers/rotator.js' %}"></script>
+<div id="page-fade"></div>
 
 </body>
 </html>
